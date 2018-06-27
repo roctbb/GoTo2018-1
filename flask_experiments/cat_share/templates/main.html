@@ -26,12 +26,20 @@
 
     <div class="starter-template">
         <h1>Наши коты</h1>
-        <ul>
+        <div class="card-deck">
             {% for i in range(cats|length) %}
-            <li><a href="/cat?id={{i}}">{{cats[i]['name']}}</a></li>
+            <div class="card" style="max-width: 20%;">
+                <img class="card-img-top" src="{{cats[i]['img']}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{cats[i]['name']}}</h5>
+                    <a href="/cat?id={{i}}">Подробнее</a>
+                </div>
+            </div>
+
+
             {% endfor %}
-        </ul>
-        <a href="/add" class="btn btn-success">Добавь своего!</a>
+        </div>
+        <a href="/add" class="btn btn-success" style="margin-top: 50px;">Добавь своего!</a>
     </div>
 
 </main><!-- /.container -->
