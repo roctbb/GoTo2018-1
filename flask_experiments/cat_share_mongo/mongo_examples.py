@@ -24,7 +24,7 @@ for cat in cats:
 
 # поиск элемента
 print('cat number 5b348f8dea2f51fab0c45462:')
-cat = cat_collection.find_one({"_id": ObjectId('5b348f8dea2f51fab0c45462')})
+cat = cat_collection.find_one({"_id": ObjectId('df5b348f8dea2f51fab0c45462')})
 print(cat)
 
 # удаление

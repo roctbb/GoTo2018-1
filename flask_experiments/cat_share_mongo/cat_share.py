@@ -1,22 +1,16 @@
 from flask import Flask, render_template, request, redirect
+from pymongo import MongoClient
+from bson import ObjectId
 
 app = Flask(__name__)
+client = MongoClient('mongodb://user:GoTo1234@ds155529.mlab.com:55529/catshare')
+db = client['catshare']
+cat_collection = db['cats']
 
-cats = [
-    {
-        "name": "Бывалый",
-        "description": "Многое повидал...",
-        "img": "https://avalon.fabiosacdn.com/image/ba83e515-8001-40ed-898f-724de3638537.jpg"
-    },
-    {
-        "name": "Фидель",
-        "description": "Кастра",
-        "img": "http://img-fotki.yandex.ru/get/5630/27433797.7d/0_81c19_4a96d9e6_-1-XL"
-    }
-]
 
 @app.route('/')
 def main():
+    cats = cat_collection.find()
     return render_template('main.html', cats=cats)
 
 @app.route('/add', methods=['get', 'post'])
@@ -33,15 +27,17 @@ def add():
             'img': img,
             'description': description
         }
-        cats.append(new_cat)
-        return redirect('/cat?id={}'.format(len(cats)-1))
+        cat_collection.insert(new_cat)
+        return redirect('/cat?id={}'.format(str(new_cat['_id'])))
 
 @app.route('/cat')
 def details():
-    id = int(request.args.get('id', -1))
-    if id < 0 or id >= len(cats):
+    id = request.args.get('id', '')
+    try:
+        cat = cat_collection.find_one({'_id': ObjectId(id)})
+        return render_template('cat.html', cat=cat)
+    except:
         return 'Cat not found'
-    else:
-        return render_template('cat.html', cat=cats[id])
+
 
 app.run(debug=True, host='0.0.0.0')

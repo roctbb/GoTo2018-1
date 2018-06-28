@@ -27,12 +27,12 @@
     <div class="starter-template">
         <h1>Наши коты</h1>
         <div class="card-deck">
-            {% for i in range(cats|length) %}
-            <div class="card" style="max-width: 20%;">
-                <img class="card-img-top" src="{{cats[i]['img']}}">
+            {% for cat in cats %}
+            <div class="card" style="max-width: 20%; min-width: 280px;">
+                <img class="card-img-top" src="{{cat['img']}}">
                 <div class="card-body">
-                    <h5 class="card-title">{{cats[i]['name']}}</h5>
-                    <a href="/cat?id={{i}}">Подробнее</a>
+                    <h5 class="card-title">{{cat['name']}}</h5>
+                    <a href="/cat?id={{cat['_id']}}">Подробнее</a>
                 </div>
             </div>
 
